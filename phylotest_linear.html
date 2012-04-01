@@ -1,0 +1,129 @@
+ 
+<html>
+<head>
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script> 
+	<script type="text/javascript" src="js/jsphylosvg-1.55/raphael-min.js" ></script> 
+	<script type="text/javascript" src="js/jsphylosvg-1.55/jsphylosvg.js"></script>
+
+
+    <!--<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>-->
+    <!--For Dialog Box-->
+    <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+    <link type="text/css" href="css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="css/style.css" rel="Stylesheet" />
+
+
+    <script type="text/javascript">
+	$(document).ready(function(){
+        //set up dialog
+        dialogX = $(window).width() - 500;
+        dialogY = $(window).width() * 0.3;
+        $( "#geneInfoDialog" ).dialog({
+            autoOpen: false,
+            show: "blind",
+            width: 300
+        });
+
+
+        // create phylogeny tree
+        $.get("scramble.xml", function(data) {
+			var dataObject = {
+				xml: data,
+				fileSource: true
+			};		
+			phylocanvas = new Smits.PhyloCanvas(
+				dataObject,
+				'svgCanvas', 
+				800, 800,
+				'rectangular'
+			);
+
+            $("a text tspan").click( function(event)
+            {
+                $("#geneInfoDialog p").textContent = "123";
+                $( "#geneInfoDialog" ).dialog( "option", "title", "Selected: " + this.textContent );
+//                $("#geneInfoDialog").dialog('option', 'position', [500,500]);
+                $( "#geneInfoDialog" ).dialog( "open" );
+
+
+            });
+
+////            Mouse Over Effets
+//            $("a text tspan").mouseover(function(event) {
+//                $( "#geneInfoDialog" ).dialog( "option", "title", "Selected: " + this.textContent );
+////                var x = jQuery(this).position().left + jQuery(this).outerWidth();
+////                var y = jQuery(this).position().top - jQuery(document).scrollTop();
+////                jQuery("#geneInfoDialog").dialog('option', 'position', [x,y]);
+//            });
+
+
+		});
+
+	});
+
+
+
+	</script>
+
+</head>
+<body>
+    <div id="geneInfoDialog" title="Move your mouse over the nodes">
+        <p>Here's where we put some more information about there gene, for example:
+            <ul>
+                <li>Source:DB</li>
+                <li>tags</li>
+                <li>Associated publications</li>
+                <li>symbols</li>
+                <li>workflow......</li></ul>
+        <br/><br/>
+
+
+
+        <b>For more information on this demo: </b><a href="http://biohack.co/tomithy/2012/04/directory-phylogeneny-phyloxml-for-gsoc-application-part-1/"> View Blog Post</a></p>
+    </div>
+
+    <div class="panelStyle" >
+        <div class="inputSpace" >
+            <h2> <a href="phylotest.html">Welcome to an Interactive Phylogeny Demo. This is the Linear Version. </a> </h2>
+            <br/><br/>
+
+            <p> <b>Introductions:</b>This demo is done as a proof of concept in using the javascript <a href="http://www.jsphylosvg.com/">jsphyloSVG</a> and python <a href="http://lxml.de/">lxml</a> libraries,
+                together with the <a href="http://www.phyloxml.org/">PhyloXML Markup</a> to create and interactive phylogeny browsers for the <a href="http://galaxy.psu.edu/">Galaxy Project</a>. A circular
+                version is available <a href="phylotest.html">here.</a> I have also described the project in detail in my <a href="http://biohack.co/tomithy/2012/04/directory-phylogeneny-phyloxml-for-gsoc-application-part-1/">blog</a>.
+                </p>
+
+            <br/>
+
+            <p><b style="color: #FF6600;">Data:</b> The data shown is generated using the generateFolderXML.py (<a href="generateFolderXML.py">download</a>) python script to iteratively walk through "<a href="https://bitbucket.org/galaxy/galaxy-dist/src/">galaxy-dist</a>/scripts/scramble" directory folder in the Galaxy project to first
+                output a scramble.xml (<a href="scramble.xml">view</a>) file, which is then loaded by the jsPhyloSVG script.</p>
+
+            <br/>
+            <p><b style="color: #FF3399;">Interactivity:</b> You can move your mouse over each file or folder and a tooltip showing its file size will pop-up. Also, you can click on each of the files/folders to reveal a dialog which is able
+            to grab the information from the calling element. Click it!</p>
+
+            <br/>
+            
+            <p><b style="color: #3399FF;">Source:</b> This project is currently hosted at <a href="https://github.com/tomithy/GSOC-2012-Demo">github</a>, the copyright of the various scripts used in this project belongs to their
+            individual owners. If you are interested to read more about the technical details, you can click here to view my blog.</p>
+
+            And yes, I have generated trees for the "<a href="phylotest_scripts.html">galaxy-dist/scripts</a>" folder and for the entire galaxy-dist (<a href="images/And so I wondered what happens when I tried plotting the whole of Galaxy.png">image-only</a> because the tree is really big).
+
+        </div>
+
+        <div class="inputSpace" >
+            <div id="svgCanvas"> </div>
+        </div>
+
+        <div class="inputSpace" >
+            <div id="Legend">
+                <h2>Legend:</h2>
+                <br/>
+                <img src="images/legend.png" >
+            </div>
+        </div>
+    </div>
+
+	
+
+</body>
+</html>		

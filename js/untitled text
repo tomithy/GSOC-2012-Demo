@@ -1,0 +1,109 @@
+Technical limitations of phylogeny display methods. 
+Circular vs Linear Takes in tools as xml
+
+(self intro)
+
+This application actually come about from a discussion of me 
+
+Actually, I am quite excited by this project because I thought of working on a open source project for the summer, 
+but it was only after talking to one of my computational biology major peers that I realized that Galaxy was listed as one of the GSOC
+projects. Other projects I have in mind are: ensembl browser and GenoCAD. Specifically, I am especially interested in Galaxy because of its
+architecture and the pivotal role it is/will play as comparative genomics analysis moves towards big shared constantly evolving data, cloud compute jobs, heavily 
+crossed-refrenced data, and pipelines. I am very impressed by how Galaxy is able design around pipeline/workflow oritentation (and kudos to MVC-like abstraction 
+of tools - viewers), what allows
+
+
+Admittedly though, my project thus far has not taken me towards the direction of Galaxy for analysis
+ 
+As a way to provide proof my skills in programming and computational biology, I will do the following:
+	- (To show that I understand the existing code) - Give an overview of the Galaxy program and its architecture by inspecting the underlying "-dist" code and 
+		discuss specifically my possible entry points with regards to this project
+	- (To show that I understand the problem) - Provide an researched implementation plan for this project, discussing my strategy and timeline for implementation,
+		and discuss its programmability, usabaility (in a user-context), potential risks and complications
+			! Limits of the data, 
+	- Interview, to get to know each other better
+	- (Just for fun) Last but not least, I have also provided with a tiny hacked together based only on JQuery and JQueryUI that lays
+		out a phylogeny tree based on the this set of data given. 
+
+Overall Galaxy Architecture:
+	Galaxy is build on the python 
+		Accepts tools from many different languages, using python os.system("some_command with args") as interface between these tools
+
+
+
+Questions for discussion - 
+	- Layout algorithm - Should it be client side or server side?
+		Client - "slower" - client browser threads, what's the phylogeny.js file size?, allows dynamic change of layout, assuming a change of display parameters
+		Server - 
+	- ?? How general should the layout algorithm be?
+	- Can I assume the phylogeny tree has been constructed? 
+
+Potential concerns and complications:
+Usability:
+	- Javascript disabled :: Failure massage
+	- dynamic resizing of screen space
+	
+	- parsing multiple phylogeny tree representation
+		- XML or Json - annotation is good, because it can "gracefully" degrade and child fields can store addition linkouts informations and node attributes
+			- whereas json provides native javascript object access. It's faster-loading and lighter than xml and does not requires additional parsing code
+				- array of internal node and leaves objects, presumably clustered hierachically
+		- need to handle cases where branch length is not given
+Reading data	
+	- Data and Tree viability
+	- incomplete load of phylogeny data
+		- AJAX continuous query until is complete flag, 
+		- All data should be loaded and display at one go
+			- ? Need to put size (nodes) cap on data?
+				- what's the running time of the suggested algorithm?
+	- dynamic loading of data
+	
+
+Architecture Analysis:
+	Study mako templates - used a similiar Java based web templating technology - Play, which uses 
+		Groovy decorators eg. "${object.variable}" or "%{if} {/if}" for templating
+		
+		
+Objective of joining GSOC -
+	learning good test driven/ behavior driven development
+		have been writing code, but I mainly debug and test with printlines and visual inspecting which is not sustainable,
+		and extensible
+	To improve on software engineering practice by working on open-souce project by familiarizing myself the good enginnering
+		practices of the project: from what I can make out, 
+	To learn and explore the back-end a widely used comparative genomics backend
+
+How does the phylogeny tree interact with the workflow?
+
+comparative genomics
+	how does phylogeny support comparative genomics
+	
+	
+
+- what kind of information to display on visual analytics
+	- bootstrap prob
+	- phylogenetic distance
+	- publication links 
+		
+	
+	CLUSTW -> phylogeny
+
+- any javascript library?
+	HTML 5 specs - yup
+	
+- find out why python
+
+Implementation:
+	- load the information to client size to avail data for client side javascript manipulation
+
+PhyloXML: http://www.phyloxml.org/documentation/version_1.10/phyloxml.xsd.html
+jsPhyloSVG: http://www.jsphylosvg.com
+
+
+Risky elements:
+	- web scripts are harder to debug because the envrionment is less certain and less forgiving: session management, client-server complications
+	- javascript may not play nice with other loaded script
+
+
+Testing using pyUnit and Selenium {What is the js testing class for mako?}
+
+	
+	

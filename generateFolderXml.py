@@ -14,12 +14,15 @@ import os
 import sys
 from lxml import etree
 
-rootdir = os.getcwd() + "/scripts"      "directory which is rendered to PhyloXML"
+rootdir = os.getcwd() + "/Galaxy_scripts"      #"directory which is rendered to PhyloXML"
 
+
+OUTFILE_NAME = "scripts.xml"
 BRANCH_LENGTH = 5.0 #determines how far/how deep each directory is
 
 def buildDirXml():
 
+    print rootdir
     rootString = "/".join(rootdir.split("/")[:-1])
 
     phyloroot = buildGenericPhyloXMLStructure()
@@ -52,8 +55,8 @@ def buildDirXml():
                 componentType = "others"
             f = os.path.join(folderDir,file)
             fileSize = fileSize + os.path.getsize(f)
-            fileSize = float(fileSize) / 100
-            tooltipFS = "Filesize: " + str(fileSize) + " bytes"
+            fileSize = float(fileSize) / 1024
+            tooltipFS = "Filesize: " + str(fileSize) + " kb"
             fileNode = generateClade(folderInternalNode, file, chartIntensity=fileSize, componentType=componentType,tooltip=tooltipFS )
 
             fileList.append(f)
@@ -62,7 +65,7 @@ def buildDirXml():
 
     print etree.tostring(phyloroot, pretty_print=True)
 
-    xmlOutFile = open ("TestingDir.xml", "wt")
+    xmlOutFile = open (OUTFILE_NAME, "wt")
 
     xmlOutString = etree.tostring(phyloroot)
     xmlOutString = addPhyloXMLroot(xmlOutString)
@@ -81,19 +84,14 @@ def getFolderParentNode(phyloRoot, rootString, folderDir):
     parentNode = phyloRoot
     relativePath = folderDir[len(rootString) + 1:]  # using the same property that all subfolders
     parentNodeTagXPathTextList = relativePath.split("/")[:-1]
-
-
-    print parentNodeTagXPathTextList
-
+#    print parentNodeTagXPathTextList
     for text in parentNodeTagXPathTextList:
         XpathExpression = 'clade/name[text()="' + text + '"]/..'
-        print XpathExpression
-
+#        print XpathExpression
         parentNodeList = parentNode.xpath(XpathExpression)
-        print "Parent Node list", parentNodeList
+#        print "Parent Node list", parentNodeList
         if len(parentNodeList) != 0 :
             parentNode = parentNodeList[0]
-#
     return parentNode
 
 
