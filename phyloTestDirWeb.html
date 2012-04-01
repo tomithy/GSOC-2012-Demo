@@ -1,0 +1,90 @@
+ 
+<html>
+<head>
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script> 
+	<script type="text/javascript" src="js/jsphylosvg-1.55/raphael-min.js" ></script> 
+	<script type="text/javascript" src="js/jsphylosvg-1.55/jsphylosvg.js"></script>
+
+
+
+    <!--<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>-->
+    <!--For Dialog Box-->
+    <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+    <link type="text/css" href="css/custom-theme/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+
+    <script type="text/javascript">
+	$(document).ready(function(){
+        //set up dialog
+        dialogX = $(window).width() - 500;
+        dialogY = $(window).width() * 0.3;
+        $( "#geneInfoDialog" ).dialog({
+            autoOpen: false,
+            show: "blind",
+            width: 460
+        });
+
+
+        // create phylogeny tree
+        $.get("TestingDir.xml", function(data) {
+			var dataObject = {
+				xml: data,
+				fileSource: true
+			};		
+			phylocanvas = new Smits.PhyloCanvas(
+				dataObject,
+				'svgCanvas', 
+				1500, 1500,
+				'circular'
+			);
+
+
+
+
+            $("a text tspan").click( function(event)
+            {
+                $("#geneInfoDialog p").textContent = "123";
+                $( "#geneInfoDialog" ).dialog( "option", "title", "Selected: " + this.textContent );
+//                $("#geneInfoDialog").dialog('option', 'position', [500,500]);
+                $( "#geneInfoDialog" ).dialog( "open" );
+
+
+            });
+
+////            Mouse Over Effets
+//            $("a text tspan").mouseover(function(event) {
+//                $( "#geneInfoDialog" ).dialog( "option", "title", "Selected: " + this.textContent );
+////                var x = jQuery(this).position().left + jQuery(this).outerWidth();
+////                var y = jQuery(this).position().top - jQuery(document).scrollTop();
+////                jQuery("#geneInfoDialog").dialog('option', 'position', [x,y]);
+//            });
+
+
+		});
+
+	});
+
+
+
+	</script>
+
+</head>
+<body>
+    <div id="geneInfoDialog" title="Move your mouse over the nodes">
+        <p>Here's where we put some more information about there gene: Eg.
+            <ul>
+                <li>Source:DB</li>
+                <li>tags</li>
+                <li>Associated publications</li>
+                <li>symbols</li>
+                <li>workflow......</li></ul>
+        <br/><br/>
+
+
+
+        <b>For more information on this demo, you can read this: </b><a href="http://www.google.com">www.google.com</a></p>
+    </div>
+
+	
+	<div id="svgCanvas"> </div>
+</body>
+</html>		
